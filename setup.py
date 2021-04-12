@@ -4,6 +4,24 @@ from setuptools import setup, find_packages
 with open("README.rst", "r") as f:
     long_description = f.read()
 
+requirements = [
+    "apache-airflow[ssh]>=1.10",
+    "fabric>=2.5"
+]
+
+requirements_docs = [
+    "sphinx>=3.5",
+    "sphinx-rtd-theme",
+    "sphinx-autodoc-typehints",
+    "sphinx-versions"
+]
+
+requirements_tests = [
+    "pytest",
+    "faker",
+    "fabric[pytest]"
+]
+
 setup(
     name="sai-airflow-plugins",
     version="0.1.0",
@@ -14,12 +32,11 @@ setup(
     license="Apache License 2.0",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=["apache-airflow[ssh]>=1.10",
-                      "fabric>=2.1"],
+    install_requires=requirements,
+    extras_require={"docs": requirements_docs,
+                    'tests': requirements_tests},
     test_suite="tests",
-    tests_require=["pytest",
-                   "faker",
-                   "fabric[pytest]>=2.1"],
+    tests_require=requirements_tests,
     classifiers=[
         # Development status
         "Development Status :: 5 - Production/Stable",
