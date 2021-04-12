@@ -35,8 +35,7 @@ class FabricHook(SSHHook):
         )
 
         connect_kwargs = {
-            "compress": self.compress,
-            "sock": self.host_proxy
+            "compress": self.compress
         }
 
         if self.password:
@@ -48,6 +47,9 @@ class FabricHook(SSHHook):
 
         if self.key_file:
             connect_kwargs["key_filename"] = self.key_file
+
+        if self.host_proxy:
+            connect_kwargs["sock"] = self.host_proxy
 
         return Connection(
             host=self.remote_host,

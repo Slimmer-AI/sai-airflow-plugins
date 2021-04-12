@@ -14,10 +14,12 @@ setup(
     license="Apache License 2.0",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=["apache-airflow>=1.10.0",
-                      "fabric>=2.0.0"],
+    install_requires=["apache-airflow[ssh]>=1.10",
+                      "fabric>=2.1"],
     test_suite="tests",
-    tests_require=["pytest"],
+    tests_require=["pytest",
+                   "faker",
+                   "fabric[pytest]>=2.1"],
     entry_points={
         "airflow.plugins": [
             "sai_airflow_plugins = sai_airflow_plugins.plugin:SaiAirflowPlugin"
