@@ -18,6 +18,11 @@ setup(
                       "fabric>=2.0.0"],
     test_suite="tests",
     tests_require=["pytest"],
+    entry_points={
+        "airflow.plugins": [
+            "sai_airflow_plugins = sai_airflow_plugins.plugin:SaiAirflowPlugin"
+        ]
+    },
     classifiers=[
         # Development status
         "Development Status :: 5 - Production/Stable",
