@@ -73,7 +73,7 @@ class FabricOperator(BaseOperator):
                  connect_timeout: Optional[int] = 10,
                  environment: Optional[Dict[str, Any]] = None,
                  inline_ssh_env: Optional[bool] = False,
-                 xcom_push_key: Optional[bool] = False,
+                 xcom_push_key: Optional[str] = None,
                  get_pty: Optional[bool] = False,
                  *args,
                  **kwargs):
@@ -83,14 +83,14 @@ class FabricOperator(BaseOperator):
         self.remote_host = remote_host
         self.command = command
         self.watchers = watchers or []
-        self.add_sudo_password_responder = add_sudo_password_responder,
-        self.add_generic_password_responder = add_generic_password_responder,
-        self.add_unknown_host_key_responder = add_unknown_host_key_responder,
+        self.add_sudo_password_responder = add_sudo_password_responder
+        self.add_generic_password_responder = add_generic_password_responder
+        self.add_unknown_host_key_responder = add_unknown_host_key_responder
         self.connect_timeout = connect_timeout
         self.environment = environment or {}
         self.inline_ssh_env = inline_ssh_env
         self.xcom_push_key = xcom_push_key
-        self.get_pty = self.command.startswith("sudo") or self.add_sudo_password_responder or get_pty
+        self.get_pty = self.command and self.command.startswith("sudo") or self.add_sudo_password_responder or get_pty
 
     def execute(self, context: Dict):
         """

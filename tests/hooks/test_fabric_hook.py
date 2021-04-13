@@ -13,7 +13,7 @@ faker = Faker()
 
 class GetFabricConnectionTest(unittest.TestCase):
 
-    def setUp(self) -> None:
+    def setUp(self):
         self.kwargs = dict(
             remote_host=faker.hostname(),
             username=faker.user_name(),
@@ -71,7 +71,7 @@ class GetFabricConnectionTest(unittest.TestCase):
 
 class RespondersTest(unittest.TestCase):
 
-    def setUp(self) -> None:
+    def setUp(self):
         self.remote_host = faker.hostname()
         self.username = faker.user_name()
         self.password = faker.password()

@@ -18,8 +18,7 @@ requirements_docs = [
 
 requirements_tests = [
     "pytest",
-    "faker",
-    "fabric[pytest]"
+    "faker"
 ]
 
 setup(
