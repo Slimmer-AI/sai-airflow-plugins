@@ -4,8 +4,12 @@ from setuptools import setup, find_packages
 with open("README.rst", "r") as f:
     long_description = f.read()
 
+# Read version number from VERSION
+with open("VERSION", "r") as f:
+    version = f.read()
+
 requirements = [
-    "apache-airflow[ssh]>=1.10",
+    "apache-airflow[ssh]>=1.10,<2",
     "fabric>=2.5"
 ]
 
@@ -23,12 +27,13 @@ requirements_tests = [
 
 setup(
     name="sai-airflow-plugins",
-    version="0.1.0",
+    version=version,
     author="Slimmer.AI",
     description="A Python package with various operators, hooks and utilities for Apache Airflow",
     long_description=long_description,
     url="https://github.com/Slimmer-AI/sai-airflow-plugins",
     license="Apache License 2.0",
+    license_files=["LICENSE"],
     packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,

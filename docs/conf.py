@@ -22,7 +22,9 @@ copyright = '2021, Slimmer.AI'
 author = 'Slimmer.AI'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.0'
+# Read from project root VERSION file
+with open("../VERSION", "r") as f:
+    release = f.read()
 
 
 # -- General configuration ---------------------------------------------------

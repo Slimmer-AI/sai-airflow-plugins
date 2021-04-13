@@ -111,12 +111,12 @@ class FabricOperatorTest(unittest.TestCase):
         """
         op1 = FabricOperator(task_id=TEST_TASK_ID, fabric_hook=self.hook, command="ls", watchers=[{"class": object}])
         with self.assertRaises(AirflowException):
-            res = op1.execute_fabric_command()
+            op1.execute_fabric_command()
 
         op2 = FabricOperator(task_id=TEST_TASK_ID, fabric_hook=self.hook, command="ls",
                              watchers=[{"class": Responder}])
         with self.assertRaises(AirflowException):
-            res = op2.execute_fabric_command()
+            op2.execute_fabric_command()
 
     def test_predefined_watchers(self):
         """
