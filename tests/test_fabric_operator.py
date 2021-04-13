@@ -2,30 +2,15 @@ import unittest
 from unittest.mock import Mock
 
 from airflow.exceptions import AirflowException
-from fabric import Connection
 from faker import Faker
 from invoke import Responder
 
-from sai_airflow_plugins.hooks.fabric_hook import FabricHook
 from sai_airflow_plugins.operators.fabric_operator import FabricOperator
+from tests.mocked_fabric_hook import MockedFabricHook
 
 TEST_TASK_ID = "test_fabric_operator"
 
 faker = Faker()
-
-
-class MockedFabricHook(FabricHook):
-    exit_code = 0
-    stdout = faker.text()
-
-    def get_fabric_conn(self) -> Connection:
-        conn = super().get_fabric_conn()
-        mock_result = Mock()
-        mock_result.exited = self.exit_code
-        mock_result.stdout = self.stdout
-        mock_result.conn = conn
-        conn.run = Mock(return_value=mock_result)
-        return conn
 
 
 class FabricOperatorTest(unittest.TestCase):
