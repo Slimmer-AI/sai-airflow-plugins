@@ -14,11 +14,13 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+from datetime import date
+
 
 # -- Project information -----------------------------------------------------
 
 project = 'sai-airflow-plugins'
-copyright = '2021, Slimmer.AI'
+copyright = f'{date.today().year}, Slimmer.AI'
 author = 'Slimmer.AI'
 
 # The full version, including alpha/beta/rc tags
