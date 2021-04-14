@@ -21,6 +21,7 @@ class FabricSensor(BaseSensorOperator, FabricOperator):
     def poke(self, context: Dict) -> bool:
         """
         Executes ``self.command`` over the configured SSH connection and checks its exit code.
+
         :param context: Context dict provided by airflow
         :return: True if the command's exit code was 0, else False.
         """

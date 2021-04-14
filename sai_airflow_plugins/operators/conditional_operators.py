@@ -9,6 +9,7 @@ from sai_airflow_plugins.operators.fabric_operator import FabricOperator
 class ConditionalBashOperator(ConditionalSkipMixin, BashOperator):
     """
     Conditional bash operator.
+
     .. seealso:: :class:`ConditionalSkipMixin` and :class:`BashOperator`
     """
     template_fields = BashOperator.template_fields + ConditionalSkipMixin.template_fields
@@ -18,6 +19,7 @@ class ConditionalBashOperator(ConditionalSkipMixin, BashOperator):
 class ConditionalPythonOperator(ConditionalSkipMixin, PythonOperator):
     """
     Conditional python operator.
+
     .. seealso:: :class:`ConditionalSkipMixin` and :class:`PythonOperator`
     """
     template_fields = PythonOperator.template_fields + ConditionalSkipMixin.template_fields
@@ -27,6 +29,7 @@ class ConditionalPythonOperator(ConditionalSkipMixin, PythonOperator):
 class ConditionalTriggerDagRunOperator(ConditionalSkipMixin, TriggerDagRunOperator):
     """
     Conditional trigger DAG run operator.
+
     .. seealso:: :class:`ConditionalSkipMixin` and :class:`TriggerDagRunOperator`
     """
     template_fields = TriggerDagRunOperator.template_fields + ConditionalSkipMixin.template_fields
@@ -36,6 +39,7 @@ class ConditionalTriggerDagRunOperator(ConditionalSkipMixin, TriggerDagRunOperat
 class ConditionalFabricOperator(ConditionalSkipMixin, FabricOperator):
     """
     Conditional Fabric operator.
+
     .. seealso:: :class:`ConditionalSkipMixin` and :class:`FabricOperator`
     """
     template_fields = FabricOperator.template_fields + ConditionalSkipMixin.template_fields

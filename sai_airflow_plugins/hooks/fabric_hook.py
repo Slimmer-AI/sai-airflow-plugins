@@ -10,6 +10,7 @@ class FabricHook(SSHHook):
     [Fabric](https://www.fabfile.org) library. It inherits from `SSHHook` and uses its input arguments for setting
     up the connection.
 
+    :param ssh_conn_id: connection id from airflow Connections
     :param inline_ssh_env: whether to send environment variables "inline" as prefixes in front of command strings
                            (export VARNAME=value && mycommand here), instead of trying to submit them through the SSH
                            protocol itself (which is the default behavior). This is necessary if the remote server
@@ -28,6 +29,7 @@ class FabricHook(SSHHook):
     def get_fabric_conn(self) -> Connection:
         """
         Creates a Fabric `Connection` object using the settings in this hook.
+
         :return: `Connection` object
         """
         self.log.info(
@@ -64,6 +66,7 @@ class FabricHook(SSHHook):
         """
         Creates a responder for the sudo password prompt. It replies with the password of the SSH connection.
         Note: only use this if the SSH connection is configured with a password and not a key.
+
         :return: `FailingResponder` object; raises `AirflowException` if no password was configured in the connection
         """
         if not self.password:
@@ -80,6 +83,7 @@ class FabricHook(SSHHook):
         Creates a responder for a generic password prompt. It replies with the password of the SSH connection. This is
         useful if you execute other ssh commands on the remote host, for example scp and rsync.
         Note: only use this if the SSH connection is configured with a password and not a key.
+
         :return: `FailingResponder` object; raises `AirflowException` if no password was configured in the connection
         """
         if not self.password:
@@ -96,6 +100,7 @@ class FabricHook(SSHHook):
         """
         Creates a responder for a host authenticity check with an unknown key. It replies ``yes`` to continue
         connecting. This is useful if you execute other ssh commands on the remote host, for example scp and rsync.
+
         :return: `FailingResponder` object
         """
         return FailingResponder(

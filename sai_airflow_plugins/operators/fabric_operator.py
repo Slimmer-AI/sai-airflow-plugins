@@ -95,6 +95,7 @@ class FabricOperator(BaseOperator):
     def execute(self, context: Dict):
         """
         Executes ``self.command`` over the configured SSH connection.
+
         :param context: Context dict provided by airflow
         :return: True or the connection's stdout if ``self.do_xcom_push`` is True.
                  On an error, raises AirflowException.
@@ -114,6 +115,7 @@ class FabricOperator(BaseOperator):
     def execute_fabric_command(self) -> Result:
         """
         Executes ``self.command`` over the configured SSH connection.
+
         :return: The `Result` object from Fabric's `run` method
         """
         try:

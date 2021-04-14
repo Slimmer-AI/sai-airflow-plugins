@@ -26,7 +26,7 @@ class MattermostWebhookOperator(SimpleHttpOperator):
                         Mattermost attachments.
     :param props: The props to send on Mattermost. Should be a dictionary representing Mattermost props.
     :param post_type: Sets an optional Mattermost post type, mainly for use by plugins. If supplied, must begin with
-                      “custom_".
+                      "custom_"
     :param channel: The channel the message should be posted to
     :param username: The username to post with
     :param icon_emoji: The emoji to use as icon for the user posting to Mattermost

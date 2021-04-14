@@ -8,6 +8,7 @@ from sai_airflow_plugins.sensors.fabric_sensor import FabricSensor
 class ConditionalBashSensor(ConditionalSkipMixin, BashSensor):
     """
     Conditional bash sensor.
+
     .. seealso:: :class:`ConditionalSkipMixin` and :class:`BashSensor`
     """
     template_fields = BashSensor.template_fields + ConditionalSkipMixin.template_fields
@@ -17,6 +18,7 @@ class ConditionalBashSensor(ConditionalSkipMixin, BashSensor):
 class ConditionalPythonSensor(ConditionalSkipMixin, PythonSensor):
     """
     Conditional python sensor.
+
     .. seealso:: :class:`ConditionalSkipMixin` and :class:`PythonSensor`
     """
     template_fields = PythonSensor.template_fields + ConditionalSkipMixin.template_fields
@@ -26,6 +28,7 @@ class ConditionalPythonSensor(ConditionalSkipMixin, PythonSensor):
 class ConditionalFabricSensor(ConditionalSkipMixin, FabricSensor):
     """
     Conditional Fabric sensor.
+
     .. seealso:: :class:`ConditionalSkipMixin` and :class:`FabricSensor`
     """
     template_fields = FabricSensor.template_fields + ConditionalSkipMixin.template_fields

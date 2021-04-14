@@ -47,6 +47,7 @@ class ConditionalSkipMixin(object):
     def execute(self, context: Dict):
         """
         If the condition evaluates to True execute the superclass `execute` method, otherwise skip the task.
+
         :param context: Context dict provided by airflow
         """
         if self._get_evaluated_condition_or_skip(context):
@@ -55,6 +56,7 @@ class ConditionalSkipMixin(object):
     def poke(self, context: Dict) -> bool:
         """
         If the condition evaluates to True execute the superclass `poke` method, otherwise skip the task.
+
         :param context: Context dict provided by airflow
         :return: The result of the superclass `poke` method
         """
@@ -65,6 +67,7 @@ class ConditionalSkipMixin(object):
         """
         Lazily evaluates `condition_callable` and raises `AirflowSkipException` if it's falsy.
         This is done because the `poke` method of a sensor may call the `execute` method as well.
+
         :param context: Context dict provided by airflow
         :return: The (cached) result of `condition_callable` if truthy, otherwise raises `AirflowSkipException`
         """
