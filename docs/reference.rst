@@ -1,7 +1,7 @@
 API reference
 =============
 
-.. contents:: Contents
+.. contents:: Packages
     :depth: 1
     :local:
 
