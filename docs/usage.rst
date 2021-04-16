@@ -30,7 +30,7 @@ You can use a :class:`~sai_airflow_plugins.hooks.fabric_hook.FabricHook` instead
     hook = FabricHook(
         remote_host="my.remote.host",
         username="my.user",
-        password="my_pass"
+        password="mypass"
     )
 
     op = FabricOperator(
