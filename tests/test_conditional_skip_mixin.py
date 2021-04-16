@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from airflow.exceptions import AirflowSkipException
 from airflow.models.baseoperator import BaseOperator
-from airflow.operators.sensors import BaseSensorOperator
+from airflow.sensors.base_sensor_operator import BaseSensorOperator
 from faker import Faker
 
 from sai_airflow_plugins.operators.conditional_skip_mixin import ConditionalSkipMixin
