@@ -17,7 +17,7 @@ requirements_docs = [
     "sphinx>=3.5",
     "sphinx-rtd-theme",
     "sphinx-autodoc-typehints",
-    "sphinx-versions"
+    "sphinx-versions==1.0.1"
 ]
 
 requirements_tests = [
