@@ -1,14 +1,22 @@
-Welcome to sai-airflow-plugins's documentation!
-===============================================
+sai-airflow-plugins documentation
+=================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+``sai-airflow-plugins`` is a Python package that contains various operators, hooks and utilities for Apache Airflow.
 
 
 Contents
 --------
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. toctree::
+    :hidden:
+
+    self
+
+.. toctree::
+    :maxdepth: 1
+
+    install
+    usage
+    reference
+    license
+    changelog

@@ -9,7 +9,8 @@ class ConditionalBashSensor(ConditionalSkipMixin, BashSensor):
     """
     Conditional bash sensor.
 
-    .. seealso:: :class:`ConditionalSkipMixin` and :class:`BashSensor`
+    .. seealso:: :class:`~sai_airflow_plugins.operators.conditional_skip_mixin.ConditionalSkipMixin` and
+                 :class:`~airflow.contrib.sensors.bash_sensor.BashSensor`
     """
     template_fields = BashSensor.template_fields + ConditionalSkipMixin.template_fields
     ui_color = "#ede4ff"
@@ -19,7 +20,8 @@ class ConditionalPythonSensor(ConditionalSkipMixin, PythonSensor):
     """
     Conditional python sensor.
 
-    .. seealso:: :class:`ConditionalSkipMixin` and :class:`PythonSensor`
+    .. seealso:: :class:`~sai_airflow_plugins.operators.conditional_skip_mixin.ConditionalSkipMixin` and
+                 :class:`~airflow.contrib.sensors.bash_sensorPythonSensor`
     """
     template_fields = PythonSensor.template_fields + ConditionalSkipMixin.template_fields
     ui_color = "#ffebff"
@@ -29,7 +31,8 @@ class ConditionalFabricSensor(ConditionalSkipMixin, FabricSensor):
     """
     Conditional Fabric sensor.
 
-    .. seealso:: :class:`ConditionalSkipMixin` and :class:`FabricSensor`
+    .. seealso:: :class:`~sai_airflow_plugins.operators.conditional_skip_mixin.ConditionalSkipMixin` and
+                 :class:`~sai_airflow_plugins.sensors.fabric_sensor.FabricSensor`
     """
     template_fields = FabricSensor.template_fields + ConditionalSkipMixin.template_fields
     ui_color = "#e6f2eb"

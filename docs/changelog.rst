@@ -1,0 +1,19 @@
+Changelog
+=========
+
+0.1.0
+-----
+
+*(2021-04-16)*
+
+- Added SSH connectivity with the Fabric library
+    - :class:`~sai_airflow_plugins.hooks.fabric_hook.FabricHook`,
+      :class:`~sai_airflow_plugins.operators.fabric_operator.FabricOperator` and
+      :class:`~sai_airflow_plugins.sensors.fabric_sensor.FabricSensor`
+- Added Mattermost integration
+    - :class:`~sai_airflow_plugins.hooks.mattermost_webhook_hook.MattermostWebhookHook` and
+      :class:`~sai_airflow_plugins.operators.mattermost_webhook_operator.MattermostWebhookOperator`
+- Added conditional operator mixin that skips when the condition is False
+    - :class:`~sai_airflow_plugins.operators.conditional_skip_mixin.ConditionalSkipMixin`
+    -  several conditional operators in :mod:`~sai_airflow_plugins.operators.conditional_operators` and
+       :mod:`~sai_airflow_plugins.sensors.conditional_sensors`
