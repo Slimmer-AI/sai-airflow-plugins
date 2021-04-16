@@ -15,7 +15,7 @@ Full documentation is available at https://slimmer-ai.github.io/sai-airflow-plug
 Features
 --------
 
-- Hook, operator and sensor for executing an SSH command using the `Fabric <https://www.fabfile.org/>_ library,
+- Hook, operator and sensor for executing an SSH command using the `Fabric <https://www.fabfile.org/>`_ library,
   with support for adding output responders
 - Operator for sending messages to an
   `incoming Mattermost webhook <https://docs.mattermost.com/developer/webhooks-incoming.html>`_
