@@ -48,10 +48,6 @@ setup(
         # Environments
         "Environment :: Plugins",
 
-        # Intended audiences
-        "Intended Audience:: Developers",
-        "Intended Audience :: System Administrators",
-
         # Supported Python versions
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
