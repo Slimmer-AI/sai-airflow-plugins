@@ -9,8 +9,8 @@ Basic usage
 Fabric operators
 ----------------
 
-Use :class:`~sai_airflow_plugins.operators.fabric_operator.FabricOperator` to execute a command over SSH, with e.g. a
-sudo password responder:
+Use :class:`~sai_airflow_plugins.operators.fabric_operator.FabricOperator` to execute a command over SSH using the
+`Fabric <https://www.fabfile.org/>_ library, with e.g. a sudo password responder:
 
 .. code-block:: python
 
