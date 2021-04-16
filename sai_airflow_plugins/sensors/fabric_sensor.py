@@ -1,6 +1,6 @@
 from typing import Dict
 
-from airflow.operators.sensors import BaseSensorOperator
+from airflow.sensors.base_sensor_operator import BaseSensorOperator
 from airflow.utils.decorators import apply_defaults
 
 from sai_airflow_plugins.operators.fabric_operator import FabricOperator
