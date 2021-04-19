@@ -4,6 +4,7 @@ sai-airflow-plugins
 |pypi version| |build status| |docs status|
 
 .. |pypi version| image:: https://pypip.in/version/sai-airflow-plugins/badge.svg
+                  :target: https://pypi.org/project/sai-airflow-plugins/
 .. |build status| image:: https://github.com/Slimmer-AI/sai-airflow-plugins/actions/workflows/python-package.yml/badge.svg
 .. |docs status| image:: https://github.com/Slimmer-AI/sai-airflow-plugins/actions/workflows/github-pages.yml/badge.svg
 
