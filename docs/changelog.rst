@@ -17,3 +17,13 @@ Changelog
     - :class:`~sai_airflow_plugins.operators.conditional_skip_mixin.ConditionalSkipMixin`
     -  several conditional operators in :mod:`~sai_airflow_plugins.operators.conditional_operators` and
        :mod:`~sai_airflow_plugins.sensors.conditional_sensors`
+
+0.1.1
+-----
+
+*(2021-07-05)*
+
+- Added parameters `use_sudo`, `sudo_user` and `strip_stdout` to
+  :class:`~sai_airflow_plugins.operators.fabric_operator.FabricOperator`
+- Parameter `get_pty` in :class:`~sai_airflow_plugins.operators.fabric_operator.FabricOperator` is no longer
+  automatically set to True when running a sudo command
