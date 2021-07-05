@@ -215,9 +215,9 @@ class FabricOperator(BaseOperator):
                 run_kwargs["password"] = self.fabric_hook.password
                 if self.sudo_user:
                     run_kwargs["user"] = self.sudo_user
-                res = conn.sudo(run_kwargs)
+                res = conn.sudo(**run_kwargs)
             else:
-                res = conn.run(run_kwargs)
+                res = conn.run(**run_kwargs)
 
             # Strip stdout if requested
             if res.stdout and self.strip_stdout:
