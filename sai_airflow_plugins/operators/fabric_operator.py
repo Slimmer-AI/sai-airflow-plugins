@@ -25,6 +25,11 @@ class FabricOperator(BaseOperator):
     :param remote_host: remote host to connect. (templated) Nullable. If provided, it will replace the `remote_host`
                         which was defined in `fabric_hook` or predefined in the connection of `ssh_conn_id`.
     :param command: command to execute on remote host. (templated)
+    :param use_sudo: uses Fabric's sudo function instead of run. Because this function automatically adds a responder
+                     for the password prompt, parameter `add_sudo_password_responder` will be ignored. It uses the
+                     SSH connection's password as reply.
+    :param sudo_user: If `use_sudo` is `True`, run the command as this user. If not supplied it will run as root.
+                      This parameter is ignored if `use_sudo` is `False`.
     :param watchers: Watchers for responding to specific command output. This is a list of dicts specifying a class
                      of type ``StreamWatcher`` and its arguments. For each dict the corresponding object is created
                      and added to Fabric's run function. It's done this way because arguments to an operator are
@@ -34,7 +39,7 @@ class FabricOperator(BaseOperator):
                      See also: http://docs.pyinvoke.org/en/latest/concepts/watchers.html
     :param add_sudo_password_responder: adds a responder for the sudo password prompt. It replies with the password of
                                         the SSH connection. Set this to True if your command contains one or more sudo
-                                        statements.
+                                        statements. If you use `use_sudo` instead, then don't use this parameter.
     :param add_generic_password_responder: adds a responder for a generic password prompt. It replies with the password
                                            of the SSH connection. This is useful if you execute other ssh commands on
                                            the remote host, for example scp and rsync.
@@ -66,6 +71,8 @@ class FabricOperator(BaseOperator):
                  ssh_conn_id: Optional[str] = None,
                  remote_host: Optional[str] = None,
                  command: str = None,
+                 use_sudo: Optional[bool] = False,
+                 sudo_user: Optional[str] = None,
                  watchers: Optional[List[Dict[str, Any]]] = None,
                  add_sudo_password_responder: Optional[bool] = False,
                  add_generic_password_responder: Optional[bool] = False,
@@ -82,8 +89,10 @@ class FabricOperator(BaseOperator):
         self.ssh_conn_id = ssh_conn_id
         self.remote_host = remote_host
         self.command = command
+        self.use_sudo = use_sudo
+        self.sudo_user = sudo_user
         self.watchers = watchers or []
-        self.add_sudo_password_responder = add_sudo_password_responder
+        self.add_sudo_password_responder = False if self.use_sudo else add_sudo_password_responder
         self.add_generic_password_responder = add_generic_password_responder
         self.add_unknown_host_key_responder = add_unknown_host_key_responder
         self.connect_timeout = connect_timeout
@@ -178,18 +187,35 @@ class FabricOperator(BaseOperator):
             if self.add_unknown_host_key_responder:
                 watchers.append(self.fabric_hook.get_unknown_host_key_responder())
 
-            self.log.info(f"Running command: {self.command}")
+            if self.use_sudo:
+                if self.sudo_user:
+                    self.log.info(f"Running sudo command as '{self.sudo_user}': {self.command}")
+                else:
+                    self.log.info(f"Running sudo command: {self.command}")
+            else:
+                self.log.info(f"Running command: {self.command}")
+
             if self.environment:
                 formatted_env_msg = "\n".join(f"{k}={v}" for k, v in self.environment.items())
                 self.log.info(f"With environment variables:\n{formatted_env_msg}")
 
-            return conn.run(
+            run_kwargs = dict(
                 command=self.command,
                 pty=self.get_pty,
                 env=self.environment,
                 watchers=watchers,
                 warn=True  # don't directly raise an UnexpectedExit when the exit code is non-zero
             )
+
+            if self.use_sudo:
+                run_kwargs["password"] = self.fabric_hook.password
+                if self.sudo_user:
+                    run_kwargs["user"] = self.sudo_user
+                res = conn.sudo(run_kwargs)
+            else:
+                res = conn.run(run_kwargs)
+
+            return res
 
         except Exception as e:
             raise AirflowException(f"Fabric operator error: {e}")

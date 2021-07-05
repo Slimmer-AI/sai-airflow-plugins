@@ -11,7 +11,8 @@ class MockedFabricHook(FabricHook):
 
     def get_fabric_conn(self) -> Connection:
         """
-        Mocks Fabric's connection.run function and returns a result with an exit code, stdout and the conn object
+        Mocks Fabric's connection.run and connection.sudo functions, returning a result with an exit code, stdout and
+        the conn object
         """
         conn = super().get_fabric_conn()
         mock_result = Mock()
@@ -19,4 +20,5 @@ class MockedFabricHook(FabricHook):
         mock_result.stdout = self.stdout
         mock_result.conn = conn
         conn.run = Mock(return_value=mock_result)
+        conn.sudo = Mock(return_value=mock_result)
         return conn

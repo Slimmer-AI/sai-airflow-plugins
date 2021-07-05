@@ -53,7 +53,36 @@ class FabricOperatorTest(unittest.TestCase):
         self.assertTrue(op.execute(context={}))
 
         res = op.execute_fabric_command()
-        res.conn.run.assert_called_with(command=command, pty=pty, env=env, watchers=[], warn=True)
+        res.conn.run.assert_called_with(dict(command=command, pty=pty, env=env, watchers=[], warn=True))
+
+    def test_fabric_operator_use_sudo(self):
+        """
+        Test that parameter use_sudo calls connection.sudo with the correct parameters
+        """
+        command = faker.text()
+        env = faker.pydict()
+        pty = faker.pybool()
+        op = FabricOperator(task_id=TEST_TASK_ID, fabric_hook=self.hook, command=command, environment=env, get_pty=pty,
+                            use_sudo=True)
+
+        res = op.execute_fabric_command()
+        res.conn.sudo.assert_called_with(dict(command=command, pty=pty, env=env, watchers=[], warn=True,
+                                              password=self.hook.password))
+
+    def test_fabric_operator_use_sudo_with_user(self):
+        """
+        Test that parameters use_sudo and sudo_user call connection.sudo with the correct parameters
+        """
+        command = faker.text()
+        env = faker.pydict()
+        pty = faker.pybool()
+        sudo_user = faker.user_name()
+        op = FabricOperator(task_id=TEST_TASK_ID, fabric_hook=self.hook, command=command, environment=env, get_pty=pty,
+                            use_sudo=True, sudo_user=sudo_user)
+
+        res = op.execute_fabric_command()
+        res.conn.sudo.assert_called_with(dict(command=command, pty=pty, env=env, watchers=[], warn=True,
+                                              password=self.hook.password, user=sudo_user))
 
     def test_fabric_operator_execute_non_zero_exit(self):
         """
@@ -98,7 +127,7 @@ class FabricOperatorTest(unittest.TestCase):
         }
         op = FabricOperator(task_id=TEST_TASK_ID, fabric_hook=self.hook, command="ls", watchers=[watcher_dict])
         res = op.execute_fabric_command()
-        watchers = res.conn.run.call_args[1]["watchers"]
+        watchers = res.conn.run.call_args[0][0]["watchers"]
 
         self.assertEqual(len(watchers), 1)
         self.assertIsInstance(watchers[0], Responder)
@@ -131,7 +160,7 @@ class FabricOperatorTest(unittest.TestCase):
                             add_generic_password_responder=True,
                             add_unknown_host_key_responder=True)
         res = op.execute_fabric_command()
-        watchers = res.conn.run.call_args[1]["watchers"]
+        watchers = res.conn.run.call_args[0][0]["watchers"]
 
         self.assertEqual(len(watchers), 3)
         self.hook.get_sudo_pass_responder.assert_called()
