@@ -7,7 +7,7 @@ from sai_airflow_plugins.hooks.fabric_hook import FabricHook
 
 class MockedFabricHook(FabricHook):
     exit_code = 0
-    stdout = "Command completed successfully"
+    stdout = "Command completed successfully\n"
 
     def get_fabric_conn(self) -> Connection:
         """

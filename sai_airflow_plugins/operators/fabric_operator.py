@@ -56,6 +56,8 @@ class FabricOperator(BaseOperator):
                            has a restricted AcceptEnv setting (which is the common default).
     :param xcom_push_key: push stdout to an XCom with this key. If None (default), or stdout is empty, then no XCom
                           will be pushed.
+    :param strip_stdout: strip leading and trailing whitespace from stdout. Useful, for example, when pushing stdout
+                         to an XCom and you don't want a trailing newline in it.
     :param get_pty: request a pseudo-terminal from the server, instead of connecting directly to the stdout/stderr
                     streams. This may be necessary when running programs that require a terminal. Note that stderr
                     output will be included in stdout, and thus added to an XCom when using `xcom_push_key`.
@@ -81,6 +83,7 @@ class FabricOperator(BaseOperator):
                  environment: Optional[Dict[str, Any]] = None,
                  inline_ssh_env: Optional[bool] = False,
                  xcom_push_key: Optional[str] = None,
+                 strip_stdout: Optional[bool] = False,
                  get_pty: Optional[bool] = False,
                  *args,
                  **kwargs):
@@ -99,6 +102,7 @@ class FabricOperator(BaseOperator):
         self.environment = environment or {}
         self.inline_ssh_env = inline_ssh_env
         self.xcom_push_key = xcom_push_key
+        self.strip_stdout = strip_stdout
         self.get_pty = get_pty
 
     def execute(self, context: Dict):
@@ -214,6 +218,10 @@ class FabricOperator(BaseOperator):
                 res = conn.sudo(run_kwargs)
             else:
                 res = conn.run(run_kwargs)
+
+            # Strip stdout if requested
+            if res.stdout and self.strip_stdout:
+                res.stdout = res.stdout.strip()
 
             return res
 

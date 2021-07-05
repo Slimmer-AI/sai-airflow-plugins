@@ -165,3 +165,13 @@ class FabricOperatorTest(unittest.TestCase):
         op.execute(context={"task_instance": task_inst})
 
         task_inst.xcom_push.assert_called_with("test_xcom", self.hook.stdout)
+
+    def test_strip_stdout(self):
+        """
+        Test that stdout is stripped if `strip_stdout` is True
+        """
+        command = faker.text()
+        op = FabricOperator(task_id=TEST_TASK_ID, fabric_hook=self.hook, command=command, strip_stdout=True)
+
+        res = op.execute_fabric_command()
+        self.assertEqual(res.stdout, self.hook.stdout.strip())
