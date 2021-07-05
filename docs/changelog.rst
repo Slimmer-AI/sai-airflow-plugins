@@ -27,3 +27,11 @@ Changelog
   :class:`~sai_airflow_plugins.operators.fabric_operator.FabricOperator`
 - Parameter `get_pty` in :class:`~sai_airflow_plugins.operators.fabric_operator.FabricOperator` is no longer
   automatically set to True when running a sudo command
+
+0.1.2
+-----
+
+*(2021-07-05)*
+
+- Fixed: parameters weren't correctly supplied to Fabric's run and sudo functions in
+  :class:`~sai_airflow_plugins.operators.fabric_operator.FabricOperator`
