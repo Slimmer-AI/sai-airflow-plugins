@@ -105,17 +105,6 @@ class FabricOperatorTest(unittest.TestCase):
 
         self.assertEqual(res.conn.host, remote_host)
 
-    def test_pty_true_with_sudo(self):
-        """
-        Test that get_pty is always True if command starts with "sudo" or the sudo password responder is added
-        """
-        op1 = FabricOperator(task_id=TEST_TASK_ID, fabric_hook=self.hook, command="sudo ls")
-        self.assertTrue(op1.get_pty)
-
-        op2 = FabricOperator(task_id=TEST_TASK_ID, fabric_hook=self.hook, command="ls",
-                             add_sudo_password_responder=True)
-        self.assertTrue(op2.get_pty)
-
     def test_watcher(self):
         """
         Test that a watcher dict is converted correctly into the specified Watcher object

@@ -56,9 +56,9 @@ class FabricOperator(BaseOperator):
                            has a restricted AcceptEnv setting (which is the common default).
     :param xcom_push_key: push stdout to an XCom with this key. If None (default), or stdout is empty, then no XCom
                           will be pushed.
-    :param get_pty: request a pseudo-terminal from the server. Set to ``True`` to have the remote process killed upon
-                    task timeout. The default is ``False`` but note that `get_pty` is forced to ``True`` when the
-                    `command` starts with ``sudo`` or `add_sudo_password_responder` is ``True``.
+    :param get_pty: request a pseudo-terminal from the server, instead of connecting directly to the stdout/stderr
+                    streams. This may be necessary when running programs that require a terminal. Note that stderr
+                    output will be included in stdout, and thus added to an XCom when using `xcom_push_key`.
     """
 
     template_fields = ("ssh_conn_id", "command", "remote_host", "environment")
@@ -99,7 +99,7 @@ class FabricOperator(BaseOperator):
         self.environment = environment or {}
         self.inline_ssh_env = inline_ssh_env
         self.xcom_push_key = xcom_push_key
-        self.get_pty = self.command and self.command.startswith("sudo") or self.add_sudo_password_responder or get_pty
+        self.get_pty = get_pty
 
     def execute(self, context: Dict):
         """
