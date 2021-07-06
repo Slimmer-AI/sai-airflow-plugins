@@ -9,7 +9,7 @@ with open("VERSION", "r") as f:
     version = f.read()
 
 requirements = [
-    "apache-airflow[ssh,http]>=1.10",
+    "apache-airflow[ssh]>=1.10",
     "fabric>=2.5"
 ]
 
