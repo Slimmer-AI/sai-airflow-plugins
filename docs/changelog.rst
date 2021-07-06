@@ -36,7 +36,7 @@ Changelog
 - Fixed: parameters weren't correctly supplied to Fabric's run and sudo functions in
   :class:`~sai_airflow_plugins.operators.fabric_operator.FabricOperator`
 
-0.1.2
+0.1.3
 -----
 
 *(2021-07-06)*
