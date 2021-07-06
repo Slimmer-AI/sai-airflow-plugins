@@ -35,3 +35,10 @@ Changelog
 
 - Fixed: parameters weren't correctly supplied to Fabric's run and sudo functions in
   :class:`~sai_airflow_plugins.operators.fabric_operator.FabricOperator`
+
+0.1.2
+-----
+
+*(2021-07-06)*
+
+- Fixed: removed http extra in setup.py requirements because this is incompatible with airflow 1.10.x
