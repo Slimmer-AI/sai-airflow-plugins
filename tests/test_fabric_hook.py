@@ -60,7 +60,7 @@ class GetFabricConnectionTest(unittest.TestCase):
 
         self.assertEqual(conn.user, getpass.getuser())
         self.assertEqual(conn.port, SSH_PORT)
-        self.assertEqual(conn.connect_timeout, 10)
+        self.assertEqual(conn.connect_timeout, None)
         self.assertTrue(conn.connect_kwargs["compress"])
         self.assertNotIn("password", conn.connect_kwargs)
         self.assertNotIn("key_filename", conn.connect_kwargs)
