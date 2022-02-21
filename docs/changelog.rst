@@ -42,3 +42,10 @@ Changelog
 *(2021-07-06)*
 
 - Fixed: removed http extra in setup.py requirements because this is incompatible with airflow 1.10.x
+
+0.1.4
+-----
+
+*(2022-02-21)*
+
+- Fixed: in FabricOperator, remove the sudo prompt from stdout when doing a sudo command in a pty
