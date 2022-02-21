@@ -219,9 +219,14 @@ class FabricOperator(BaseOperator):
             else:
                 res = conn.run(**run_kwargs)
 
-            # Strip stdout if requested
-            if res.stdout and self.strip_stdout:
-                res.stdout = res.stdout.strip()
+            if res.stdout:
+                # Strip sudo prompt from stdout when using sudo and a pty
+                if self.use_sudo and self.get_pty:
+                    res.stdout = res.stdout.replace(conn.config.sudo.prompt, "")
+
+                # Strip stdout if requested
+                if self.strip_stdout:
+                    res.stdout = res.stdout.strip()
 
             return res
 
