@@ -13,6 +13,7 @@ class ConditionalBashSensor(ConditionalSkipMixin, BashSensor):
                  :class:`~airflow.contrib.sensors.bash_sensor.BashSensor`
     """
     template_fields = BashSensor.template_fields + ConditionalSkipMixin.template_fields
+    template_ext = BashSensor.template_ext
     ui_color = "#ede4ff"
 
 
@@ -35,4 +36,5 @@ class ConditionalFabricSensor(ConditionalSkipMixin, FabricSensor):
                  :class:`~sai_airflow_plugins.sensors.fabric_sensor.FabricSensor`
     """
     template_fields = FabricSensor.template_fields + ConditionalSkipMixin.template_fields
+    template_ext = FabricSensor.template_ext
     ui_color = "#e6f2eb"

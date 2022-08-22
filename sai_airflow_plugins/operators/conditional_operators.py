@@ -14,6 +14,7 @@ class ConditionalBashOperator(ConditionalSkipMixin, BashOperator):
                  :class:`~airflow.operators.bash_operator.BashOperator`
     """
     template_fields = BashOperator.template_fields + ConditionalSkipMixin.template_fields
+    template_ext = BashOperator.template_ext
     ui_color = "#ede4ff"
 
 
@@ -47,4 +48,5 @@ class ConditionalFabricOperator(ConditionalSkipMixin, FabricOperator):
                  :class:`~sai_airflow_plugins.operators.fabric_operator.FabricOperator`
     """
     template_fields = FabricOperator.template_fields + ConditionalSkipMixin.template_fields
+    template_ext = FabricOperator.template_ext
     ui_color = "#feffe5"

@@ -15,6 +15,7 @@ class FabricSensor(BaseSensorOperator, FabricOperator):
     """
 
     template_fields = FabricOperator.template_fields
+    template_ext = FabricOperator.template_ext
 
     @apply_defaults
     def __init__(self, *args, **kwargs):
