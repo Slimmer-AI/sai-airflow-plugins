@@ -14,6 +14,8 @@ class FabricSensor(BaseSensorOperator, FabricOperator):
     The parameters for this sensor are the combined parameters of `FabricOperator` and `BaseSensorOperator`.
     """
 
+    template_fields = FabricOperator.template_fields
+
     @apply_defaults
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
