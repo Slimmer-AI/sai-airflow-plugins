@@ -44,7 +44,6 @@ class GetFabricConnectionTest(unittest.TestCase):
         self.assertEqual(conn.port, self.kwargs["port"])
         self.assertEqual(conn.connect_timeout, self.kwargs["timeout"])
         self.assertEqual(conn.connect_kwargs["password"], self.kwargs["password"])
-        self.assertEqual(conn.connect_kwargs["key_filename"], self.kwargs["key_file"])
         self.assertEqual(conn.connect_kwargs["pkey"], self.pkey)
         self.assertEqual(conn.connect_kwargs["compress"], self.compress)
         self.assertEqual(conn.connect_kwargs["sock"], self.host_proxy)
