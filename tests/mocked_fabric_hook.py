@@ -19,6 +19,8 @@ class MockedFabricHook(FabricHook):
         mock_result.exited = self.exit_code
         mock_result.stdout = self.stdout
         mock_result.conn = conn
+        conn.open = Mock()
+        conn.transport = Mock()
         conn.run = Mock(return_value=mock_result)
         conn.sudo = Mock(return_value=mock_result)
         return conn

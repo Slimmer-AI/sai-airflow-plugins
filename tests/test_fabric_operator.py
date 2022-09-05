@@ -53,6 +53,7 @@ class FabricOperatorTest(unittest.TestCase):
         self.assertTrue(op.execute(context={}))
 
         res = op.execute_fabric_command()
+        res.conn.open.assert_called()
         res.conn.run.assert_called_with(command=command, pty=pty, env=env, watchers=[], warn=True)
 
     def test_fabric_operator_use_sudo(self):
@@ -66,6 +67,7 @@ class FabricOperatorTest(unittest.TestCase):
                             use_sudo=True)
 
         res = op.execute_fabric_command()
+        res.conn.open.assert_called()
         res.conn.sudo.assert_called_with(command=command, pty=pty, env=env, watchers=[], warn=True,
                                          password=self.hook.password)
 
@@ -81,6 +83,7 @@ class FabricOperatorTest(unittest.TestCase):
                             use_sudo=True, sudo_user=sudo_user)
 
         res = op.execute_fabric_command()
+        res.conn.open.assert_called()
         res.conn.sudo.assert_called_with(command=command, pty=pty, env=env, watchers=[], warn=True,
                                          password=self.hook.password, user=sudo_user)
 
@@ -175,3 +178,13 @@ class FabricOperatorTest(unittest.TestCase):
 
         res = op.execute_fabric_command()
         self.assertEqual(res.stdout, self.hook.stdout.strip())
+
+    def test_set_keepalive_called(self):
+        """
+        Test that set_keepalive() is called on the client transport object with the specified value
+        """
+        op = FabricOperator(task_id=TEST_TASK_ID, fabric_hook=self.hook, command="ls", keepalive=60)
+        res = op.execute_fabric_command()
+
+        res.conn.open.assert_called()
+        res.conn.transport.set_keepalive.assert_called_with(60)

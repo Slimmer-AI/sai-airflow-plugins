@@ -61,6 +61,8 @@ class FabricOperator(BaseOperator):
     :param get_pty: request a pseudo-terminal from the server, instead of connecting directly to the stdout/stderr
                     streams. This may be necessary when running programs that require a terminal. Note that stderr
                     output will be included in stdout, and thus added to an XCom when using `xcom_push_key`.
+    :param keepalive: The number of seconds to send keepalive packets to the server. This corresponds to the ssh option
+                      ``ServerAliveInterval``. The default is 0, which disables keepalive.
     """
 
     template_fields = ("ssh_conn_id", "command", "remote_host", "environment")
@@ -85,6 +87,7 @@ class FabricOperator(BaseOperator):
                  xcom_push_key: Optional[str] = None,
                  strip_stdout: Optional[bool] = False,
                  get_pty: Optional[bool] = False,
+                 keepalive: Optional[int] = 0,
                  *args,
                  **kwargs):
         super().__init__(*args, **kwargs)
@@ -104,6 +107,7 @@ class FabricOperator(BaseOperator):
         self.xcom_push_key = xcom_push_key
         self.strip_stdout = strip_stdout
         self.get_pty = get_pty
+        self.keepalive = keepalive
 
     def execute(self, context: Dict):
         """
@@ -203,6 +207,11 @@ class FabricOperator(BaseOperator):
                 formatted_env_msg = "\n".join(f"{k}={v}" for k, v in self.environment.items())
                 self.log.info(f"With environment variables:\n{formatted_env_msg}")
 
+            # Open connection and set transport-specific options
+            conn.open()
+            conn.transport.set_keepalive(self.keepalive)
+
+            # Set up runtime options and run the command
             run_kwargs = dict(
                 command=self.command,
                 pty=self.get_pty,
