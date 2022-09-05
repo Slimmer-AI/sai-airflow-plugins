@@ -56,3 +56,10 @@ Changelog
 *(2022-02-21)*
 
 - Fixed: only test on python 3.8 with airflow 2.2.3 due to airflow's strict contraint files
+
+0.1.9
+-----
+
+*(2022-09-05)*
+
+- Added: keepalive option in FabricOperator to keep long running SSH connections open
