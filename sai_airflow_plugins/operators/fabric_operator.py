@@ -114,7 +114,7 @@ class FabricOperator(BaseOperator):
         Executes ``self.command`` over the configured SSH connection.
 
         :param context: Context dict provided by airflow
-        :return: True or the connection's stdout if ``self.do_xcom_push`` is True.
+        :return: True if the command executed correctly.
                  On an error, raises AirflowException.
         """
         result = self.execute_fabric_command()
