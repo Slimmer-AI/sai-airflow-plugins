@@ -28,8 +28,13 @@ class FabricOperator(BaseOperator):
     :param use_sudo: uses Fabric's sudo function instead of run. Because this function automatically adds a responder
                      for the password prompt, parameter `add_sudo_password_responder` will be ignored. It uses the
                      SSH connection's password as reply.
-    :param sudo_user: If `use_sudo` is `True`, run the command as this user. If not supplied it will run as root.
-                      This parameter is ignored if `use_sudo` is `False`.
+    :param use_sudo_shell: wraps the command in a sudo shell. The difference with `use_sudo` is that Fabric's sudo
+                           function only executes a single command as sudo. Within a sudo shell a full script can be
+                           run, e.g. a templated script file. This does *not* automatically add a sudo responder
+                           for the password prompt. Use `add_sudo_password_responder` as necessary.
+                           This parameter can't be used at the same time as `use_sudo`.
+    :param sudo_user: If `use_sudo` or `use_sudo_shell` is `True`, run the command as this user. If not supplied it will
+                      run as root. This parameter is ignored if `use_sudo` and `use_sudo_shell` are `False`.
     :param watchers: Watchers for responding to specific command output. This is a list of dicts specifying a class
                      of type ``StreamWatcher`` and its arguments. For each dict the corresponding object is created
                      and added to Fabric's run function. It's done this way because arguments to an operator are
@@ -76,6 +81,7 @@ class FabricOperator(BaseOperator):
                  remote_host: Optional[str] = None,
                  command: str = None,
                  use_sudo: Optional[bool] = False,
+                 use_sudo_shell: Optional[bool] = False,
                  sudo_user: Optional[str] = None,
                  watchers: Optional[List[Dict[str, Any]]] = None,
                  add_sudo_password_responder: Optional[bool] = False,
@@ -96,6 +102,7 @@ class FabricOperator(BaseOperator):
         self.remote_host = remote_host
         self.command = command
         self.use_sudo = use_sudo
+        self.use_sudo_shell = use_sudo_shell
         self.sudo_user = sudo_user
         self.watchers = watchers or []
         self.add_sudo_password_responder = False if self.use_sudo else add_sudo_password_responder
@@ -166,6 +173,9 @@ class FabricOperator(BaseOperator):
             if not self.command:
                 raise AirflowException("SSH command not specified. Aborting.")
 
+            if self.use_sudo and self.use_sudo_shell:
+                raise AirflowException("Cannot use use_sudo and use_sudo_shell at the same time. Aborting.")
+
             conn = self.fabric_hook.get_fabric_conn()
 
             # Create watcher objects, using the provided dictionary to instantiate the class and supply its kwargs
@@ -195,13 +205,22 @@ class FabricOperator(BaseOperator):
             if self.add_unknown_host_key_responder:
                 watchers.append(self.fabric_hook.get_unknown_host_key_responder())
 
+            # Wrap command in sudo shell if requested
+            if self.use_sudo_shell:
+                sudo_params = f"-su {self.sudo_user}" if self.sudo_user else "-s"
+                command = f"sudo {sudo_params} -- <<'__end_of_sudo_shell__'\n" \
+                          f"{self.command}\n" \
+                          f"__end_of_sudo_shell__"
+            else:
+                command = self.command
+
             if self.use_sudo:
                 if self.sudo_user:
-                    self.log.info(f"Running sudo command as '{self.sudo_user}': {self.command}")
+                    self.log.info(f"Running sudo command as '{self.sudo_user}': {command}")
                 else:
-                    self.log.info(f"Running sudo command: {self.command}")
+                    self.log.info(f"Running sudo command: {command}")
             else:
-                self.log.info(f"Running command: {self.command}")
+                self.log.info(f"Running command: {command}")
 
             if self.environment:
                 formatted_env_msg = "\n".join(f"{k}={v}" for k, v in self.environment.items())
@@ -213,7 +232,7 @@ class FabricOperator(BaseOperator):
 
             # Set up runtime options and run the command
             run_kwargs = dict(
-                command=self.command,
+                command=command,
                 pty=self.get_pty,
                 env=self.environment,
                 watchers=watchers,

@@ -14,10 +14,11 @@ requirements = [
 ]
 
 requirements_docs = [
-    "sphinx==5.3.0",
+    "sphinx>=5,<6",
     "sphinx-rtd-theme",
     "sphinx-autodoc-typehints",
-    "sphinx-versions==1.0.1"
+    "sphinx-versions==1.0.1",
+    "click<8"  # Prevents `AttributeError: module 'click' has no attribute 'get_os_args'` on Python 3.11
 ]
 
 requirements_tests = [
@@ -49,9 +50,10 @@ setup(
         "Environment :: Plugins",
 
         # Supported Python versions
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
 
         # License
         "License :: OSI Approved :: Apache Software License",

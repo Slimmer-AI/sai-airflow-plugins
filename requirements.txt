@@ -1,4 +1,4 @@
---constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.2.3/constraints-3.8.txt
+--constraint https://raw.githubusercontent.com/apache/airflow/constraints-2-2/constraints-3.8.txt
 
-apache-airflow[http,ssh]==2.2.3
+apache-airflow[http,ssh]~=2.2.5
 fabric~=2.6

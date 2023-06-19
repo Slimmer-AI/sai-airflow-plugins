@@ -87,6 +87,41 @@ class FabricOperatorTest(unittest.TestCase):
         res.conn.sudo.assert_called_with(command=command, pty=pty, env=env, watchers=[], warn=True,
                                          password=self.hook.password, user=sudo_user)
 
+    def test_fabric_operator_use_sudo_shell(self):
+        """
+        Test that parameter use_sudo_shell wraps the command in a sudo shell
+        """
+        command = faker.text()
+        env = faker.pydict()
+        pty = faker.pybool()
+        op = FabricOperator(task_id=TEST_TASK_ID, fabric_hook=self.hook, command=command, environment=env, get_pty=pty,
+                            use_sudo_shell=True)
+
+        res = op.execute_fabric_command()
+
+        expected_command = f"sudo -s -- <<'__end_of_sudo_shell__'\n{command}\n__end_of_sudo_shell__"
+
+        res.conn.open.assert_called()
+        res.conn.run.assert_called_with(command=expected_command, pty=pty, env=env, watchers=[], warn=True)
+
+    def test_fabric_operator_use_sudo_shell_with_user(self):
+        """
+        Test that parameter use_sudo_shell wraps the command in a sudo shell for the specified user
+        """
+        command = faker.text()
+        env = faker.pydict()
+        pty = faker.pybool()
+        sudo_user = faker.user_name()
+        op = FabricOperator(task_id=TEST_TASK_ID, fabric_hook=self.hook, command=command, environment=env, get_pty=pty,
+                            use_sudo_shell=True, sudo_user=sudo_user)
+
+        res = op.execute_fabric_command()
+
+        expected_command = f"sudo -su {sudo_user} -- <<'__end_of_sudo_shell__'\n{command}\n__end_of_sudo_shell__"
+
+        res.conn.open.assert_called()
+        res.conn.run.assert_called_with(command=expected_command, pty=pty, env=env, watchers=[], warn=True)
+
     def test_fabric_operator_execute_non_zero_exit(self):
         """
         Test that execution with a non-zero exit code fails and the exit code is logged
