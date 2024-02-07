@@ -1,3 +1,9 @@
+Deprecation Warning
+===================
+
+**This repository is no longer maintained and will be removed in the future. Please fork this repository if you want to keep using it.**
+
+
 sai-airflow-plugins
 ===================
 
